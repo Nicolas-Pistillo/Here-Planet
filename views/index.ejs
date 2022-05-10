@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Socket.IO chat</title>
-    <style>
-      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sockets</title>
+  <link rel="stylesheet" href="../assets/app.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <style>
+    body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
       #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
       #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
@@ -13,34 +20,33 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages > li { padding: 0.5rem 1rem; }
       #messages > li:nth-child(odd) { background: #efefef; }
-    </style>
-  </head>
-  <body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
+  </style>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
+  <ul id="messages"></ul>
 
-        var socket = io();
+  <form id="form" action="">
+    <input id="input" autocomplete="off" /><button>Send</button>
+  </form>
 
-        var form = document.getElementById('form');
-        var input = document.getElementById('input');
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    
+    var socket = io();
 
-        form.addEventListener('submit', function(e) {
+    var form = document.getElementById('form');
+    var input = document.getElementById('input');
 
-            e.preventDefault();
+    form.addEventListener('submit', function(e) {
 
-            if (input.value) {
-                console.log(input.value);
-                socket.emit('chat message', input.value);
-                input.value = '';
-            }
+      e.preventDefault();
 
-        });
+      if (input.value && input.value.trim() != '') {
+        socket.emit('chat message', input.value);
+        input.value = '';
+      }
 
-    </script>
-  </body>
+    });
+  </script>
+
+</body>
 </html>
