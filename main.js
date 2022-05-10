@@ -1,35 +1,34 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const http = require('http');
-const { Server } = require('socket.io');
-const colors = require('colors');
-const helpers = require('./helpers');
-const ejs = require('ejs');
+const http = require("http");
+const { Server } = require("socket.io");
+const colors = require("colors");
+const ejs = require("ejs");
 
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+app.use("/assets", express.static("assets"));
 
-app.get('/', (req, res) => {
-  res.removeListener(helpers.view('index.html'))  
+app.get("/", (req, res) => {
+  res.render("index", { nombre: "Ortega" });
 });
 
-io.on('connection', (socket) => {
+io.on("connection", (socket) => {
+  
+  console.log(colors.rainbow("Nuevo usuario conectado"));
 
-    console.log(colors.rainbow('Nuevo usuario conectado'));
+  socket.on("chat message", (msg) => {
+    console.log("message: " + msg);
+  });
 
-    socket.on('chat message', (msg) => {
-        console.log('message: ' + msg);
-    });
-
-    socket.on('disconnect', () => {
-        console.log('Usuario desconectado');
-    })
-
+  socket.on("disconnect", () => {
+    console.log("Usuario desconectado");
+  });
 });
 
 server.listen(3000, () => {
-  console.log(colors.green('Server running on port 3000'));
+  console.log(colors.green("Server running on port 3000"));
 });
