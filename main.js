@@ -17,18 +17,12 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  
-  console.log(colors.rainbow("Nuevo usuario conectado"));
 
-  socket.on("chat message", (msg) => {
-    console.log("message: " + msg);
-  });
+  console.log(colors.rainbow("New connection established"));
 
-  socket.on("disconnect", () => {
-    console.log("Usuario desconectado");
-  });
 });
 
-server.listen(3000, () => {
-  console.log(colors.green("Server running on port 3000"));
+server.listen(80, () => {
+  console.log(colors.green("Local development server running..."));
 });
+
